@@ -1,0 +1,11 @@
+{
+  "name": "@capsize/prooflink",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Architecture and draft protocol for authenticated public communications",
+  "license": "LicenseRef-Capsize-Proprietary",
+  "type": "module",
+  "engines": { "node": ">=22" },
+  "scripts": { "check": "node scripts/check-docs.mjs" },
+  "repository": { "type": "git", "url": "git@github.com:Capsize-Games/prooflink.git" }
+}
