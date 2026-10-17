@@ -6,6 +6,9 @@
   "license": "LicenseRef-Capsize-Proprietary",
   "type": "module",
   "engines": { "node": ">=22" },
-  "scripts": { "check": "node scripts/check-docs.mjs" },
+  "scripts": {
+    "check": "node scripts/check-docs.mjs",
+    "test": "node --test scripts/check-docs.test.mjs"
+  },
   "repository": { "type": "git", "url": "git@github.com:Capsize-Games/prooflink.git" }
 }

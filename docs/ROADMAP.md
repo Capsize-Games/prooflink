@@ -86,7 +86,10 @@ by the same engineer on the same account does not satisfy independence.
 **Security:** independent review of enrollment, signer/approval separation,
 current-state completeness, recovery and UI claims; no SMS recovery bypass;
 production key custody validated on the actual chosen mechanism. Cap logs at
-512 entries and 8 MiB of envelope data. Pause onboarding when capacity is reached.
+512 entries and 8 MiB of envelope data; stop routine admission at 448 entries or
+7 MiB to preserve emergency control capacity. Test cutoff, reserve authorization,
+retry deduplication and full-reserve exhaustion. Pause onboarding before capacity
+is reached.
 
 **Acceptance:** publish and verify routine notices through actual passkeys;
 editing invalidates approvals; origin outage still permits archival checks from

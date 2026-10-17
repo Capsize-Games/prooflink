@@ -142,6 +142,8 @@ and pretend the combined envelope existed at an earlier checkpoint.
 | Normal grant depth | 1; no staff subdelegation |
 | Entries per issuer pilot log | 512 |
 | Complete log envelope data | 8 MiB |
+| Routine admission cutoff | 448 entries or 7 MiB total, whichever is reached first |
+| Reserved control capacity | At least 64 entries and 1 MiB at routine cutoff, for governance/recovery |
 | Downloaded evidence bundle | 16 MiB uncompressed, including metadata |
 | Mirror hints | 8 |
 | Allowed clock skew | 60 seconds in pilot trust policy |
@@ -152,7 +154,18 @@ signature, nested object, fetch, decompression, and chain traversal has a bound.
 Reject malformed UTF-8, unpaired surrogates, NaN-like non-JSON values, and unsafe
 object-property handling. A limit failure yields a specific Unverified resource
 reason without claiming fraud. The pilot MUST stop growing before its history
-exceeds these bounds; a new scaling/transition profile requires review.
+exceeds these bounds; a new scaling/transition profile requires review. The admission
+gateway MUST stop ordinary submissions at the routine cutoff and preserve the
+remaining space for valid governance-quorum and recovery-quorum controls. Exact
+admission limits apply to the projected totals after appending an entry, not
+just the current totals before admission. Therefore a routine entry cannot
+consume part of the reserve by crossing a byte or count boundary. Exact
+retries MUST return their original admission result without adding entries.
+Admission must validate signatures/authority before spending reserved capacity;
+neither a publisher-supplied type label nor ordinary staff credentials suffice.
+The reserve is finite: if exhausted, suspend current verification and resolve
+the incident through accepted trust policy or a reviewed transition. Never skip
+emergency controls or accept an oversized prefix to keep a green result.
 
 ## 3. Issuers and trust policy
 
@@ -501,12 +514,24 @@ Process entries in increasing index. For each recognized record:
    A valid old signature cannot authorize a new control after its grant retired.
 5. Recovery controls use the separate precommitted recovery chain, have priority
    over the normal chain, and cannot be blocked by a normal-head mismatch.
-6. A control signed by a currently active required quorum that intentionally
-   branches from an earlier head instead of extending the current head creates
-   `authority_conflict`; suspend current authorization for that epoch until a
-   valid recovery resolution. Random unsigned junk cannot force this condition.
+6. Two different controls for the same `(issuer, authority_epoch, control_seq,
+   previous_control)` constitute a conflict if each envelope satisfies the
+   applicable control authority while that authority is active at its admission.
+   The second such control creates `authority_conflict`; suspend current
+   authorization for that epoch until a valid recovery resolution. This is a
+   mechanical check, not a judgment about intent. Serialize control proposals
+   and reapprove stale proposals to avoid accidental conflicts. Identical retries,
+   unsigned junk and signatures from retired authority cannot create a conflict.
 7. Apply accepted incident safe boundaries to historical eligibility; keep the
    mathematical signature result separate from authorization confidence.
+
+A requested unsupported record is Unverified. During history replay, an unknown
+control signed by an otherwise applicable active governance or recovery quorum
+MUST produce `unsupported_control` and suspend a current result; silently skipping
+it would claim complete authority state without understanding the change. An
+unrecognized entry without applicable control authority cannot change state or
+freeze an issuer merely by using a control-like label. Cover these distinctions
+in conformance vectors before implementation.
 
 The log order supplies a total order **within this issuer's chosen log**. It
 does not supply a global wall clock. Identity/legal-role disputes, private
@@ -534,7 +559,7 @@ for a historically eligible statement to remain valid after routine retirement.
 
 Recommended reason codes include `no_record`, `unknown_issuer`,
 `binding_disputed`, `unsupported_profile`, `unsupported_approval_class`,
-`unsupported_algorithm`, `malformed_encoding`, `digest_mismatch`,
+`unsupported_algorithm`, `unsupported_control`, `malformed_encoding`, `digest_mismatch`,
 `signature_mismatch`, `text_mismatch`, `grant_inactive`, `scope_denied`,
 `authority_stale`, `authority_conflict`, `compromise_interval`, `missing_entry`,
 `inclusion_failed`, `consistency_failed`, `witness_quorum_missing`,
@@ -646,4 +671,5 @@ signed known-answer vectors, approval transform/challenge encoding, recovery
 transition vectors, selected log submission/receipt adapter, exact C2SP package
 version pins, and independent implementation comparison. No sample in this
 document contains a real signature. The examples must not be used as production
-fixtures. Public protocol publication also requires the owner's licensing decision.
+fixtures. Public inspection of this draft is authorized under the existing
+restrictive license. Independent reuse requires a separate owner licensing decision.

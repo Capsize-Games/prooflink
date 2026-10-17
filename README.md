@@ -16,23 +16,27 @@ standard.
 - [Technical sources and research status](docs/REFERENCES.md)
 - [Original brief](docs/source/original-brief.md)
 - [Security review requirements](SECURITY.md)
+- [Public repository review and corrections](docs/REVIEW.md)
 
 Run the repository checks with Node.js 22 or newer; no dependencies are needed:
 
 ```sh
 npm run check
+npm test
 ```
 
 The checks validate documentation links, JSON examples, required deliverables,
-and repository metadata. They do not test a protocol implementation.
+and repository metadata. Ten regression tests exercise the documentation checker.
+Neither command tests a protocol implementation.
 
 ## Ownership and release status
 
 Copyright (c) 2026 Capsize LLC. Proprietary and confidential. All rights reserved.
 See [LICENSE](LICENSE); metadata uses `LicenseRef-Capsize-Proprietary`.
 
-The owner requested a private repository under `Capsize-Games` on 2026-10-16.
-That instruction overrides the source brief's open-source licensing requirement.
-The open protocol and public implementation described in the brief remain future
-release objectives requiring an explicit owner licensing decision. This repository
-grants no implementation, redistribution, or public specification license.
+The owner initially requested a private repository, then authorized making
+`Capsize-Games/prooflink` public after review. The Capsize LLC restrictive license
+remains in force. Public visibility permits inspection; it does not make this an
+open-source project or grant independent implementation or redistribution rights.
+The brief's open-source licensing objective remains subject to a separate owner
+decision.

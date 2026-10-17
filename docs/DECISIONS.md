@@ -162,13 +162,16 @@ and validate comprehension with actual recruited users. Source:
 
 ## ADR-014 — License and public adoption
 
-**Accepted owner constraint:** private `Capsize-Games` repository and Capsize LLC
-restrictive proprietary license, 2026-10-16. This supersedes the pasted brief's
-open-source requirement. The exact HQ license is in [LICENSE](../LICENSE).
+**Accepted owner decisions, 2026-10-16:** create the `Capsize-Games` repository
+with the Capsize LLC restrictive license, then make the repository public after
+review. Public visibility supersedes the initial private-repository decision;
+the restrictive license still supersedes the pasted brief's open-source
+requirement. The exact HQ license is in [LICENSE](../LICENSE).
 
 Alternatives for a future owner decision include a permissive public specification
 and verifier, separately licensed publisher hosting, or retaining everything as
 private research. Public independent implementation/adoption requires suitable
-reuse and patent rights; the present notice grants none. No license switch,
-public repository, public package or implied grant is authorized by the design.
+reuse and patent rights; the present notice grants none. Public inspection is
+authorized. No license switch, public package or independent reuse grant is
+authorized by the visibility change.
 Third-party component rights remain their own and must be preserved on reuse.

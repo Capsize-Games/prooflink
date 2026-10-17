@@ -3,10 +3,10 @@
 Design date: 2026-10-16. Status: proposed architecture, unimplemented.
 
 The original assignment is preserved in [the brief](source/original-brief.md).
-The owner's private-repository and restrictive-license instruction supersedes
-its open-source requirement. Public inspectability and unrestricted independent
-implementation cannot be delivered under the current license. Section I records
-that release dependency rather than treating it as resolved.
+The owner's restrictive-license instruction supersedes its open-source requirement.
+The owner subsequently authorized public repository visibility after review.
+Public inspection is allowed; independent reuse rights are not granted by the
+current license. Section I records that adoption dependency.
 
 ## The hardest problems
 
@@ -230,6 +230,9 @@ alone does not guarantee availability. See
 [IPFS content addressing](https://docs.ipfs.tech/concepts/content-addressing/).
 
 The first pilot bounds a log to 512 entries and 8 MiB of total envelope data.
+Routine admission stops at 448 entries or 7 MiB, whichever comes first; remaining
+capacity is reserved for authenticated governance and recovery controls. Admission
+must enforce both limits and deduplicate retries without consuming new slots.
 Verification replays every entry through the chosen checkpoint. Refuse a
 current result when a required entry is unavailable. Once a bound is exceeded,
 pause expansion until a reviewed scaling profile exists; do not skip controls
@@ -574,8 +577,9 @@ availability can dominate elapsed time.
 
 ## I. Governance and sustainability
 
-Current governance is Capsize LLC's private project. No independent foundation,
-pilot partner, public specification license, or open contribution process exists.
+Current governance is Capsize LLC's project with a public repository under its
+restrictive license. No independent foundation, pilot partner, specification reuse
+license, or open contribution process exists.
 The brief's desired public/open governance is therefore a proposed future state.
 
 Before adoption, obtain an explicit owner decision on specification reuse,

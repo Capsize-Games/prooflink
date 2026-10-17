@@ -4,10 +4,12 @@
 
 - Project: ProofLink, a temporary name for authenticated public communications.
   `Capsize-Games` is the GitHub organization; this is not a game project.
-- Owner decision, 2026-10-16: keep the repository private and use the exact Capsize
-  LLC proprietary license from HQ. Use `LicenseRef-Capsize-Proprietary` metadata
-  and `private: true` for packages. Do not publish packages, enable Pages, or
-  change visibility/licensing without an explicit owner instruction.
+- Owner decisions, 2026-10-16: initially create a private repository, then make
+  it public after reviewing and correcting the contents. Keep the exact Capsize
+  LLC proprietary license from HQ. Public inspection is authorized; open-source
+  licensing is not. Use `LicenseRef-Capsize-Proprietary` metadata and `private:
+  true` for packages. Do not publish packages, enable Pages, or change licensing
+  without an explicit owner instruction.
 - The source brief's open-source requirement is overridden for this repository.
   Preserve this conflict in design and handoff material. Do not imply that the
   current specification is publicly licensed for independent implementation.
@@ -41,5 +43,7 @@
 - Run `npm run check` after documentation changes. State exactly what ran and
   distinguish documentation checks from security, browser, interoperability, and
   deployment tests. Add meaningful implementation tests when functionality exists.
+- Run `npm test` after checker changes. The regression tests use isolated temporary
+  copies; do not modify real documents or read outside the repository to test links.
 - Do not add optional AI vendor footers or AI co-author commit trailers. Preserve
   required disclosures and third-party attribution.
